@@ -1,5 +1,6 @@
 // TODO Change random number generation, and decrease number generation on succesive calls
 // TODO Do no overwrite already existing values
+// TODO Check not for odd numbers but for 2 pow n + 1
 package main
 
 import (
@@ -71,17 +72,20 @@ func fractalGeneration(heightMap [][]float64, params FractalParams,
 	heightMap[(params.LowX+params.HighX)/2][(params.LowY+params.HighY)/2] = averageCenter +
 		0 //(randomGen.NormFloat64() * params.RandomFactor * 2)
 
+	xMidPoint := (params.LowX + params.HighX) / 2
+	yMidPoint := (params.LowY + params.HighY) / 2
+
 	// assign corner midpoints step
-	heightMap[params.LowX][params.HighY/2] = (heightMap[params.LowX][params.LowY]+
+	heightMap[params.LowX][yMidPoint] = (heightMap[params.LowX][params.LowY]+
 		heightMap[params.LowX][params.HighY])/2 + 0 //randomGen.NormFloat64()*params.RandomFactor
 
-	heightMap[params.HighX][params.HighY/2] = (heightMap[params.HighX][params.LowY]+
+	heightMap[params.HighX][yMidPoint] = (heightMap[params.HighX][params.LowY]+
 		heightMap[params.HighX][params.HighY])/2 + 0 //randomGen.NormFloat64()*params.RandomFactor
 
-	heightMap[params.HighX/2][params.LowY] = (heightMap[params.LowX][params.LowY]+
+	heightMap[xMidPoint][params.LowY] = (heightMap[params.LowX][params.LowY]+
 		heightMap[params.HighX][params.LowY])/2 + 0 //randomGen.NormFloat64()*params.RandomFactor
 
-	heightMap[params.HighX/2][params.HighY] = (heightMap[params.LowX][params.HighY]+
+	heightMap[xMidPoint][params.HighY] = (heightMap[params.LowX][params.HighY]+
 		heightMap[params.HighX][params.HighY])/2 + 0 //randomGen.NormFloat64()*params.RandomFactor
 
 	// check for end of recursion
