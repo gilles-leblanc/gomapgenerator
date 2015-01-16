@@ -99,18 +99,18 @@ func fractalGeneration(heightMap [][]float64, params FractalParams,
 	// Recursively call fractal generation
 	if params.HighX-params.LowX > 2 {
 		fractalGeneration(heightMap, FractalParams{params.LowX, params.LowY,
-			params.HighX / 2, params.HighY / 2,
+			xMidPoint, yMidPoint,
 			params.RandomFactor}, randomGen)
 
-		fractalGeneration(heightMap, FractalParams{params.HighX / 2, params.LowY,
-			params.HighX, params.HighY / 2,
+		fractalGeneration(heightMap, FractalParams{xMidPoint, params.LowY,
+			params.HighX, yMidPoint,
 			params.RandomFactor}, randomGen)
 
-		fractalGeneration(heightMap, FractalParams{params.LowX, params.HighY / 2,
-			params.HighX / 2, params.HighY,
+		fractalGeneration(heightMap, FractalParams{params.LowX, yMidPoint,
+			xMidPoint, params.HighY,
 			params.RandomFactor}, randomGen)
 
-		fractalGeneration(heightMap, FractalParams{params.HighX / 2, params.HighY / 2,
+		fractalGeneration(heightMap, FractalParams{xMidPoint, yMidPoint,
 			params.HighX, params.HighY,
 			params.RandomFactor}, randomGen)
 	}

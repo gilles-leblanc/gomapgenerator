@@ -4,7 +4,7 @@ import "fmt"
 
 func main() {
 	fmt.Printf("Generating map\n")
-	var heightMap, err = generate(5)
+	var heightMap, err = generate(9)
 
 	if err != nil {
 		fmt.Println(err)
