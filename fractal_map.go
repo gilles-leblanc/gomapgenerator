@@ -53,13 +53,7 @@ func generate(size int) ([][]float64, error) {
 // Applies a fractal algorithm to a sub-section of the map
 func fractalGeneration(heightMap [][]float64, params FractalParams,
 	randomGen *rand.Rand) {
-	// check for end of recursion
 	fmt.Printf("%d %d %d %d \n", params.LowX, params.LowY, params.HighX, params.HighY)
-	// if params.LowX >= params.HighX-1 || params.LowY >= params.HighY-1 {
-	// 	fmt.Printf("Exit\n")
-	// 	time.Sleep(1000 * time.Millisecond)
-	// 	return
-	// }
 
 	// assign center value step
 	var averageCenter = (heightMap[params.LowX][params.LowY] +
