@@ -1,4 +1,3 @@
-// TODO Do no overwrite already existing values
 // TODO Check not for odd numbers but for 2 pow n + 1
 package main
 
@@ -72,17 +71,25 @@ func fractalGeneration(heightMap [][]float64, params FractalParams,
 	yMidPoint := (params.LowY + params.HighY) / 2
 
 	// assign corner midpoints step
-	heightMap[params.LowX][yMidPoint] = (heightMap[params.LowX][params.LowY]+
-		heightMap[params.LowX][params.HighY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+	if heightMap[params.LowX][yMidPoint] == 0 {
+		heightMap[params.LowX][yMidPoint] = (heightMap[params.LowX][params.LowY]+
+			heightMap[params.LowX][params.HighY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+	}
 
-	heightMap[params.HighX][yMidPoint] = (heightMap[params.HighX][params.LowY]+
-		heightMap[params.HighX][params.HighY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+	if heightMap[params.HighX][yMidPoint] == 0 {
+		heightMap[params.HighX][yMidPoint] = (heightMap[params.HighX][params.LowY]+
+			heightMap[params.HighX][params.HighY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+	}
 
-	heightMap[xMidPoint][params.LowY] = (heightMap[params.LowX][params.LowY]+
-		heightMap[params.HighX][params.LowY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+	if heightMap[xMidPoint][params.LowY] == 0 {
+		heightMap[xMidPoint][params.LowY] = (heightMap[params.LowX][params.LowY]+
+			heightMap[params.HighX][params.LowY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+	}
 
-	heightMap[xMidPoint][params.HighY] = (heightMap[params.LowX][params.HighY]+
-		heightMap[params.HighX][params.HighY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+	if heightMap[xMidPoint][params.HighY] == 0 {
+		heightMap[xMidPoint][params.HighY] = (heightMap[params.LowX][params.HighY]+
+			heightMap[params.HighX][params.HighY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+	}
 
 	// Recalculate RandomFactor so it gets lower with each iteration
 	if params.RandomFactor > 1 {
