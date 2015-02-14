@@ -54,7 +54,7 @@ func generate(size int) ([][]float64, error) {
 // Applies a fractal algorithm to a sub-section of the map
 func fractalGeneration(heightMap [][]float64, params FractalParams,
 	randomGen *rand.Rand) {
-	fmt.Printf("%d %d %d %d \n", params.LowX, params.LowY, params.HighX, params.HighY)
+	// fmt.Printf("%d %d %d %d \n", params.LowX, params.LowY, params.HighX, params.HighY)
 
 	// assign center value step
 	var averageCenter = (heightMap[params.LowX][params.LowY] +
@@ -65,35 +65,35 @@ func fractalGeneration(heightMap [][]float64, params FractalParams,
 	// we multiply the RandomFactor by 2 when we assign the center point because
 	// the center points needs to be more randomized than the corner midpoints
 	heightMap[(params.LowX+params.HighX)/2][(params.LowY+params.HighY)/2] = averageCenter +
-		generateRandomNumber(params.RandomFactor*2, randomGen)
+		generateRandomNumber(params.RandomFactor, randomGen)
 
 	xMidPoint := (params.LowX + params.HighX) / 2
 	yMidPoint := (params.LowY + params.HighY) / 2
 
 	// assign corner midpoints step
 	if heightMap[params.LowX][yMidPoint] == 0 {
-		heightMap[params.LowX][yMidPoint] = (heightMap[params.LowX][params.LowY]+
-			heightMap[params.LowX][params.HighY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+		heightMap[params.LowX][yMidPoint] = (heightMap[params.LowX][params.LowY] +
+			heightMap[params.LowX][params.HighY]) / 2 //+ generateRandomNumber(params.RandomFactor, randomGen)
 	}
 
 	if heightMap[params.HighX][yMidPoint] == 0 {
-		heightMap[params.HighX][yMidPoint] = (heightMap[params.HighX][params.LowY]+
-			heightMap[params.HighX][params.HighY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+		heightMap[params.HighX][yMidPoint] = (heightMap[params.HighX][params.LowY] +
+			heightMap[params.HighX][params.HighY]) / 2 //+ generateRandomNumber(params.RandomFactor, randomGen)
 	}
 
 	if heightMap[xMidPoint][params.LowY] == 0 {
-		heightMap[xMidPoint][params.LowY] = (heightMap[params.LowX][params.LowY]+
-			heightMap[params.HighX][params.LowY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+		heightMap[xMidPoint][params.LowY] = (heightMap[params.LowX][params.LowY] +
+			heightMap[params.HighX][params.LowY]) / 2 //+ generateRandomNumber(params.RandomFactor, randomGen)
 	}
 
 	if heightMap[xMidPoint][params.HighY] == 0 {
-		heightMap[xMidPoint][params.HighY] = (heightMap[params.LowX][params.HighY]+
-			heightMap[params.HighX][params.HighY])/2 + generateRandomNumber(params.RandomFactor, randomGen)
+		heightMap[xMidPoint][params.HighY] = (heightMap[params.LowX][params.HighY] +
+			heightMap[params.HighX][params.HighY]) / 2 //+ generateRandomNumber(params.RandomFactor, randomGen)
 	}
 
 	// Recalculate RandomFactor so it gets lower with each iteration
 	if params.RandomFactor > 1 {
-		params.RandomFactor = params.RandomFactor * 0.9
+		params.RandomFactor = params.RandomFactor / 2
 	}
 
 	// Recursively call fractal generation
@@ -117,5 +117,7 @@ func fractalGeneration(heightMap [][]float64, params FractalParams,
 }
 
 func generateRandomNumber(randomFactor float64, randomGen *rand.Rand) float64 {
-	return randomGen.NormFloat64() * randomFactor
+	randNum := randomGen.NormFloat64() * randomFactor
+	fmt.Printf("randonFactor = %d, randNum = %d \n", randomFactor, randNum)
+	return randNum
 }
