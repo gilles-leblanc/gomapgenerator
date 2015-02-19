@@ -8,6 +8,7 @@ import (
 )
 
 const CornerStartingHeight = 500
+const MaxRandomValue = 655 // 1% of uint16
 const Roughness = 10
 
 type FractalParams struct {
@@ -15,11 +16,11 @@ type FractalParams struct {
 	LowY         int
 	HighX        int
 	HighY        int
-	RandomFactor float64
+	RandomFactor uint16
 }
 
 // Generate an height map using a fractal algorithm
-func generate(size int) ([][]float64, error) {
+func generate(size int) ([][]uint16, error) {
 	// check if size is odd
 	if size%2 == 0 {
 		return nil, errors.New("Size must be odd.")
@@ -28,15 +29,15 @@ func generate(size int) ([][]float64, error) {
 	var x, y = size, size
 
 	// Generate our slice to hold the height map data
-	heightMap := make([][]float64, y, y)
+	heightMap := make([][]uint16, y, y)
 
 	for i := range heightMap {
-		heightMap[i] = make([]float64, x, x)
+		heightMap[i] = make([]uint16, x, x)
 	}
 
 	// Initialize randomness
 	randomGen := rand.New(rand.NewSource(time.Now().UnixNano()))
-	randomFactor := float64(Roughness * x / 10)
+	randomFactor := uint16(Roughness * x / 10)
 
 	// Assign a basic value to each of the four corners
 	heightMap[0][0] = CornerStartingHeight + generateRandomNumber(randomFactor, randomGen)
@@ -51,7 +52,7 @@ func generate(size int) ([][]float64, error) {
 }
 
 // Applies a fractal algorithm to a sub-section of the map
-func fractalGeneration(heightMap [][]float64, params FractalParams,
+func fractalGeneration(heightMap [][]uint16, params FractalParams,
 	randomGen *rand.Rand) {
 
 	// assign center value step
@@ -114,7 +115,7 @@ func fractalGeneration(heightMap [][]float64, params FractalParams,
 	}
 }
 
-func generateRandomNumber(randomFactor float64, randomGen *rand.Rand) float64 {
-	randNum := randomGen.NormFloat64() * randomFactor
+func generateRandomNumber(randomFactor uint16, randomGen *rand.Rand) uint16 {
+	randNum := uint16(randomGen.Int31n(MaxRandomValue)) * randomFactor
 	return randNum
 }
