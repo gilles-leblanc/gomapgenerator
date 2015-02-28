@@ -10,7 +10,7 @@ import (
 
 func main() {
 	fmt.Printf("Generating map\n")
-	imageSize := 1025 // 9, 17, 33, 129, 257, 513, 1025
+	imageSize := 9 // 9, 17, 33, 129, 257, 513, 1025
 	var heightMap, err = generate(imageSize)
 
 	if err != nil {

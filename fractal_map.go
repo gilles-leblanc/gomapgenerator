@@ -7,8 +7,9 @@ import (
 	"time"
 )
 
-const CornerStartingHeight = 500
-const MaxRandomValue = 655 // 1% of uint16
+const MaxUint16 = ^uint16(0)
+const CornerStartingHeight = MaxUint16 / 2
+const MaxRandomValue = 1000
 const Roughness = 10
 
 type FractalParams struct {
@@ -46,7 +47,7 @@ func generate(size int) ([][]uint16, error) {
 	heightMap[x-1][y-1] = CornerStartingHeight + generateRandomNumber(randomFactor, randomGen)
 
 	// Recursively generate height map
-	fractalGeneration(heightMap, FractalParams{0, 0, x - 1, y - 1, randomFactor}, randomGen)
+	// fractalGeneration(heightMap, FractalParams{0, 0, x - 1, y - 1, randomFactor}, randomGen)
 
 	return heightMap, nil
 }
